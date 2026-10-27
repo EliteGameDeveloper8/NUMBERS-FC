@@ -45,7 +45,7 @@ main{padding:0 16px 20px;max-width:1100px}.note{color:var(--mut)}
 #sbt{position:absolute;top:10px;right:10px}
 .hc{display:flex;align-items:center;gap:8px;font-weight:700}
 .opts{display:flex;flex-wrap:wrap;gap:6px}.opts button{padding:4px 6px;background:#22323d;border:2px solid transparent;line-height:0}.opts button.on{border-color:var(--acc)}
-#t3 h3{margin:16px 0 6px;font-size:14px;color:var(--mut)}input[type=color]{width:46px;height:34px;padding:2px;cursor:pointer;vertical-align:middle}
+#t3 h3,.ced h3{margin:16px 0 6px;font-size:14px;color:var(--mut)}input[type=color]{width:46px;height:34px;padding:2px;cursor:pointer;vertical-align:middle}
 .lt{width:100%;border-collapse:collapse;font-size:14px}.lt th{color:var(--mut);font-weight:600;padding:4px}.lt td{padding:5px 4px;text-align:center;border-top:1px solid #22323d}.lt td:nth-child(2),.lt th:nth-child(2){text-align:left}
 .lt tr.me td{background:#243845;font-weight:700}.lt tr.up td:first-child{border-left:4px solid #7CFC8A}.lt tr.dn td:first-child{border-left:4px solid #ff6b6b}.lt tr.wc td:first-child{border-left:4px solid #ffd54a}.lt svg{display:inline-block!important;vertical-align:middle;margin-right:6px}
 #t4 h3{margin:16px 0 6px}.rl{list-style:none;padding:0;margin:0 0 8px;color:var(--mut)}.rl li{padding:3px 0}.rl li.me{color:var(--ink);font-weight:700}
@@ -63,6 +63,13 @@ button.big:hover{transform:translateY(-2px)}button.big small{font:400 13px "Treb
 .tile{display:flex;flex-direction:column;align-items:center;gap:2px;padding:14px 8px;background:var(--pan);color:var(--ink);border-radius:10px;border:2px solid #22323d;transition:transform .1s}
 .tile:hover{border-color:var(--acc);transform:translateY(-2px)}.tile span{font-size:28px;line-height:1.2}.tile small{color:var(--mut);font-weight:400}
 .cpw{display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px;background:var(--pan);border-radius:6px}
+#setup{position:fixed;inset:0;z-index:30;overflow:auto;background:radial-gradient(1000px 500px at 50% -5%,#1f6b3d,#10181f 65%)}
+.sw{max-width:960px;margin:0 auto;padding:20px 16px 110px}.slogo{font:900 38px Impact,"Arial Narrow",sans-serif;letter-spacing:.5px}.slogo i{color:var(--acc);font-style:normal}
+.sdots{display:flex;gap:8px;margin:10px 0 18px}.sdots span{height:6px;flex:1;border-radius:3px;background:#2b3b47}.sdots span.on{background:var(--acc)}
+.sp{animation:pop .25s}.sp h1{font:900 32px Impact,"Arial Narrow",sans-serif;margin:0 0 6px}.sp h3{margin:16px 0 6px;font-size:14px;color:var(--mut)}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}}
+.snav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-between;gap:10px;padding:12px 16px;background:#0a1015ee}.snav button{padding:12px 26px;font-size:16px}
+#snk,#scc{width:100%;font-size:18px;padding:10px 12px}#setup .side{top:0}
 </style></head><body>
 <header><b>NUMBERS<i> FC</i></b><span id=hc class=hc></span><span id=co></span><button id=hb class=alt onclick="toggleHelp()">Hide help</button></header>
 <div class=tabs><button onclick="tab(0)">&#9917; Play</button><button onclick="tab(1)">&#128085; Squad</button><button onclick="tab(2)">&#128176; Market</button><button onclick="tab(3)">&#128737; Club</button><button onclick="tab(4)">&#127942; League</button></div>
@@ -77,17 +84,19 @@ button.big:hover{transform:translateY(-2px)}button.big small{font:400 13px "Treb
 <div class="help card" style="margin-top:14px"><div class=row><b>How to play</b><button class=alt onclick="toggleHelp()">Hide help</button></div>
 <p class=note>The first 5 players of your squad start, placed on the map in the Squad tab. You control one at a time; the rest play themselves.</p>
 <p class=note><b>WASD / arrows</b> move · <b>Shift</b> sprint (uses stamina) · <b>Space</b> shoot (hold for power) · <b>E</b> pass (switches player when you don't have the ball) · <b>Tab / Q</b> switch · <b>B</b> substitutions (3 per match) · <b>M</b> mute. Matches last 2 minutes; coins are earned for goals and results.</p>
-<p class=note>Career mode: pick your club country in the Club tab, then play your league fixtures. Win promotion, avoid relegation, and top-division clubs qualify for the World Club Championship.</p>
+<p class=note><b>Final play:</b> when the clock hits 0:00 the match isn't over until the ball is dead – it hits a wall, a shot hits a player or keeper, or possession changes hands. Whoever has the ball can keep dribbling, passing or shooting until then, and a goal in the final play still counts.</p>
+<p class=note>Career mode: pick your club country in the Club tab, then play your league fixtures. Win promotion, avoid relegation, and top-division clubs qualify for the World Club Championship. Every club has a squad rating – the club you face fields exactly the squad shown in the League tab.</p>
 <p class=note>Your team name, club crest, league progress, squad, coins and every player's goals, assists and saves are saved on this device. Players have a temperament, mentality and personality, and teammates placed next to each other build chemistry (green/yellow/red lines on the Squad map) that boosts or lowers their stats.</p></div>
 </main>
 <main id=t1 hidden><p id=sqi class=note></p><div class=split><div class=side><div id=fmb></div><div id=fm></div><p class="note help">Drag players to place them (the keeper stays in goal). Tap a player here, then a card, to swap. A red ring means out of position: −8 to all stats. The circle on each player is his rating.</p></div><div><div id=bs class=bar></div><div class=grid id=sq></div></div></div></main>
 <main id=t2 hidden><p><button onclick="rf()">New listings (25 coins)</button> <span id=mc class=note></span></p><div id=bm class=bar></div><div class=grid id=mk></div></main>
-<main id=t3 hidden><div class=split><div class=side><div class=cpw><div id=cpv></div><b id=cpn></b></div><p><button onclick="rndC()">Randomize crest</button></p></div><div><h3>Team name</h3><p><input id=nk maxlength=16></p><h3>Club country</h3><p><select id=ccs onchange="setCC(this.value)"></select></p><p class="note help">Your club plays in this country's league pyramid. Changing country starts a new league career from the bottom division.</p><h3>Shape</h3><div id=cps class=opts></div><h3>Pattern</h3><div id=cpp class=opts></div><h3>Emblem</h3><div id=cpe class=opts></div><h3>Colours</h3><p>Main <input type=color id=k1 oninput="setC('c1',this.value,1)"> Second <input type=color id=k2 oninput="setC('c2',this.value,1)"> Trim &amp; emblem <input type=color id=k3 oninput="setC('c3',this.value,1)"></p><div id=cpl class=opts></div><p class="note help">Your crest is saved on this device and shown to your opponent in matches.</p></div></div></main>
+<main id=t3 hidden><h3>Team name</h3><p><input id=nk maxlength=16></p><h3>Club country</h3><p><select id=ccs class=ccs onchange="setCC(this.value)"></select></p><p class="note help">Your club plays in this country's league pyramid. Changing country starts a new league career from the bottom division.</p><div class=ced></div></main>
 <main id=t4 hidden><div id=lg></div></main>
 <div id=info hidden onclick="if(event.target==this)this.hidden=true"></div>
+<div id=setup hidden></div>
 <div id=game><canvas id=cv></canvas><button id=sbt class=alt onclick="subUI()">Subs (B)</button><div id=sub hidden></div><div id=res hidden></div></div>
 <script>
-const $=s=>document.querySelector(s),r=Math.random,R=(a,b)=>a+r()*(b-a),cl=(v,a,b)=>Math.max(a,Math.min(b,v)),hy=Math.hypot;
+const $=s=>document.querySelector(s),r=Math.random,R=(a,b)=>a+r()*(b-a),cl=(v,a,b)=>Math.max(a,Math.min(b,v)),hy=Math.hypot,pk=a=>a[r()*a.length|0];
 const W=1000,H=600,G0=220,G1=380,ST=['PAC','SHO','PAS','DEF','PHY','GK'];
 // country | first names | surnames | stat bias [pace,shoot,pass,defend,physical]
 const C=`PT|Cristiano,Bruno,Rúben,João,Diogo|Ronaldo,Fernandes,Silva,Dias,Leão|0,5,4,-3,-2
@@ -108,6 +117,26 @@ JP|Takumi,Kaoru,Takefusa,Wataru,Daichi|Minamino,Mitoma,Kubo,Endo,Kamada|5,0,7,-2
 MA|Achraf,Hakim,Youssef,Sofyan,Noussair|Hakimi,Ziyech,En-Nesyri,Amrabat,Mazraoui|6,2,4,2,0
 TR|Arda,Hakan,Burak,Kenan,Cengiz|Güler,Çalhanoğlu,Yılmaz,Yıldız,Ünder|1,4,4,0,0
 RO|Ianis,Nicolae,Răzvan,Florin,Radu|Hagi,Stanciu,Marin,Dragușin,Popescu|1,2,4,1,0`.split('\n').map(l=>{const a=l.split('|');return{c:a[0],f:a[1].split(','),l:a[2].split(','),b:a[3].split(',').map(Number)}});
+// club names per country: code | towns | name patterns ({p} town, {n} nickname, {y} founding year) | nicknames
+const CNM={};`PT|Braga,Faro,Viseu,Aveiro,Leiria,Coimbra,Setúbal,Évora,Guimarães,Funchal,Tomar,Beja,Chaves,Portimão,Barcelos,Olhão|Sporting {p};Académico {p};Desportivo {p};FC {p};União {p};{p} Atlético;Clube {p};{p} FC
+BR|Recife,Salvador,Curitiba,Fortaleza,Belém,Manaus,Goiânia,Natal,Vitória,Campinas,Niterói,Londrina,Joinville,Maceió,Pelotas,Cuiabá|EC {p};Atlético {p};{p} FC;Sport Club {p};Associação {p};{p} Esporte Clube;Clube {p}
+AR|Rosario,Mendoza,Córdoba,Tucumán,Salta,Mar del Plata,Santa Fe,Bahía Blanca,Quilmes,Lanús,Posadas,Neuquén,San Juan,Paraná,Resistencia,San Luis|Club Atlético {p};{p} Juniors;Deportivo {p};Sportivo {p};Defensores de {p};Unión {p};Estudiantes de {p};Racing de {p}
+DE|Kassel,Bremen,Dresden,Freiburg,Mainz,Ulm,Aachen,Rostock,Bochum,Paderborn,Fulda,Trier,Jena,Münster,Kiel,Augsburg|FC {p};SV {p};TSV {p};SC {p};VfL {p};Eintracht {p};Fortuna {p};SV {p} {y};TSV {p} {y};1. FC {p}
+FR|Nantes,Rennes,Lille,Brest,Metz,Nancy,Reims,Amiens,Caen,Dijon,Nîmes,Tours,Angers,Troyes,Lorient,Auxerre,Bastia|FC {p};AS {p};Olympique de {p};Racing Club de {p};US {p};{p} Athlétique Club;Étoile de {p};AC {p};Stade {p}
+ES|Málaga,Vigo,Gijón,Oviedo,Murcia,Alicante,Granada,Almería,Córdoba,Santander,Valladolid,Badajoz,Tarragona,Elche,Cádiz,Zaragoza|Real {p};CD {p};Deportivo {p};{p} CF;Racing de {p};Atlético {p};UD {p};Sporting de {p}
+IT|Bari,Lecce,Catania,Brescia,Pisa,Cremona,Perugia,Taranto,Livorno,Ancona,Modena,Trieste,Udine,Salerno,Pescara,Cagliari|AC {p};US {p};{p} Calcio;AS {p};Virtus {p};Unione {p};Sporting {p};Football Club {p}
+GB|Ashford,Bedford,Carlisle,Doncaster,Exeter,Grimsby,Halifax,Kendal,Lincoln,Northwich,Rochdale,Stafford,Telford,Warrington,Yeovil,Whitby|{p} Town;{p} City;{p} United;{p} Rovers;{p} Athletic;{p} Wanderers;{p} Albion;AFC {p};{p} County
+NL|Zwolle,Venlo,Breda,Tilburg,Almere,Delft,Haarlem,Leiden,Emmen,Roermond,Dordrecht,Waalwijk,Apeldoorn,Nijmegen,Deventer,Alkmaar|FC {p};SC {p};VV {p};{p} Boys;Excelsior {p};SV {p};RKC {p};Sparta {p}
+HR|Osijek,Varaždin,Zadar,Šibenik,Pula,Karlovac,Sisak,Dubrovnik,Čakovec,Koprivnica,Vinkovci,Zaprešić,Slavonski Brod,Bjelovar|NK {p};HNK {p};GNK {p};Sloga {p};Jedinstvo {p};Slavija {p};Mladost {p}
+PL|Gdynia,Lublin,Toruń,Radom,Kielce,Opole,Rzeszów,Tychy,Gliwice,Zabrze,Płock,Bielsko-Biała,Olsztyn,Wałbrzych,Siedlce,Tarnów|KS {p};MKS {p};GKS {p};Stal {p};Polonia {p};Ruch {p};Górnik {p};Sparta {p};Zagłębie {p};Wisła {p}
+RS|Novi Sad,Niš,Kragujevac,Subotica,Čačak,Vranje,Zrenjanin,Kraljevo,Valjevo,Šabac,Pančevo,Leskovac,Smederevo,Loznica|FK {p};OFK {p};Radnički {p};Mladost {p};Sloboda {p};Napredak {p};Sloga {p};Železničar {p}
+UA|Poltava,Zaporizhzhia,Sumy,Chernihiv,Vinnytsia,Lutsk,Ternopil,Odesa,Mykolaiv,Kryvyi Rih,Uzhhorod,Cherkasy,Zhytomyr,Rivne|FC {p};Metalurh {p};Dynamo {p};Spartak {p};Zorya {p};Obolon {p};Karpaty {p};Chornomorets {p}
+NG|Enugu,Kano,Ibadan,Abeokuta,Owerri,Calabar,Warri,Jos,Kaduna,Sokoto,Benin,Uyo,Akure,Ilorin,Makurdi,Lagos|{p} Stars;{p} Pillars;{p} United;{p} Eagles;{p} Warriors;{p} Giants;FC {p};{p} Rangers
+JP|Sendai,Niigata,Shimizu,Kumamoto,Matsumoto,Nagano,Okayama,Hiroshima,Sapporo,Kyoto,Nagoya,Kawasaki,Yokohama,Fukuoka,Kobe,Osaka|{n} {p};{n} {p};{n} {p};{p} FC;{p} United;{p} Athletic;FC {p}|Kamui,Hikari,Raiden,Kaze,Tsubasa,Sakura,Hayabusa,Ryujin,Shogun,Kirin,Tora,Fuji
+MA|Agadir,Tangier,Fez,Meknes,Oujda,Tetouan,Kenitra,Safi,Nador,Berkane,Marrakech,Essaouira,Laayoune,El Jadida|Olympique {p};Union Sportive {p};Ittihad {p};Renaissance {p};Chabab {p};Hassania {p};Mouloudia {p};{p} Atlas
+TR|Konya,Rize,Sivas,Kayseri,Antalya,Samsun,Trabzon,Bursa,Denizli,Malatya,Manisa,Gaziantep,Eskişehir,Adana,Mersin,Bolu|{p}spor;{p}spor;Yeni {p}spor;{p} Belediyespor;{p} Gücü;{p} Gençlik;{p} İdman Yurdu;{p} Atletik
+RO|Sibiu,Oradea,Arad,Pitești,Ploiești,Iași,Craiova,Târgu Mureș,Galați,Bacău,Botoșani,Mediaș,Suceava,Hunedoara,Reșița,Brăila|FC {p};CS {p};Universitatea {p};Gloria {p};Rapid {p};Voința {p};Metalul {p};Petrolul {p};Minerul {p};Unirea {p};ACS {p}`.split('\n').forEach(l=>{const a=l.split('|');CNM[a[0]]={p:a[1].split(','),t:a[2].split(';'),n:(a[3]||'').split(',')}});
+const clubName=cc=>{const d=CNM[cc]||CNM.GB;return pk(d.t).replace('{p}',pk(d.p)).replace('{n}',pk(d.n)).replace('{y}',1888+r()*43|0)};
 const OFF={GK:[-10,-30,-5,-25,-5],DEF:[-4,-14,0,10,6],MID:[0,0,10,-2,-4],FWD:[6,12,2,-18,-4]};
 const WT={GK:[.05,0,.1,0,.05,.8],DEF:[.15,.1,.15,.4,.2,0],MID:[.15,.15,.35,.2,.15,0],FWD:[.25,.4,.15,.05,.15,0]};
 // personality: temperament (te), mentality (mn), personality (pe)
@@ -130,32 +159,58 @@ function chem(L){const links=[],c=L.map(()=>3);
 const cm=c=>Math.round((c-5)*.6);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
 // ---------- club crest ----------
-const SHP=['M10 8H90V62C90 92 66 108 50 114C34 108 10 92 10 62Z','M4 60a46 46 0 1 0 92 0a46 46 0 1 0-92 0Z','M8 14Q50 0 92 14V58Q92 92 50 116Q8 92 8 58Z','M50 4L92 28V84L50 116L8 84V28Z','M12 8H88V112L50 92L12 112Z','M12 8H88Q94 8 94 14V94Q94 112 76 112H24Q6 112 6 94V14Q6 8 12 8Z'];
-const PTN=[()=>'',c=>`<path d="M20 0h20v120H20zM60 0h20v120H60z" fill="${c}"/>`,c=>`<path d="M0 24h100v24H0zM0 72h100v24H0z" fill="${c}"/>`,c=>`<path d="M50 0h50v120H50z" fill="${c}"/>`,c=>`<path d="M0 0h50v60H0zM50 60h50v60H50z" fill="${c}"/>`,c=>`<path d="M0 8V40L100 104V72Z" fill="${c}"/>`,c=>`<path d="M0 40L50 72L100 40V66L50 98L0 66Z" fill="${c}"/>`,c=>{let d='';for(let i=0;i<4;i++)for(let j=0;j<4;j++)if((i+j)%2)d+=`M${i*25} ${j*30}h25v30h-25z`;return`<path d="${d}" fill="${c}"/>`},c=>`<path d="M40 0h20v120H40zM0 46h100v20H0z" fill="${c}"/>`];
+const SHP=['M10 8H90V62C90 92 66 108 50 114C34 108 10 92 10 62Z','M4 60a46 46 0 1 0 92 0a46 46 0 1 0-92 0Z','M8 14Q50 0 92 14V58Q92 92 50 116Q8 92 8 58Z','M50 4L92 28V84L50 116L8 84V28Z','M12 8H88V112L50 92L12 112Z','M12 8H88Q94 8 94 14V94Q94 112 76 112H24Q6 112 6 94V14Q6 8 12 8Z',
+ 'M50 4C78 4 92 28 92 60C92 94 72 110 50 116C28 110 8 94 8 60C8 28 22 4 50 4Z','M28 6H72L94 60L72 114H28L6 60Z','M10 8H26V18H38V8H62V18H74V8H90V62C90 92 66 108 50 114C34 108 10 92 10 62Z','M8 8H92V80L50 116L8 80Z'];
+const PTN=[()=>'',c=>`<path d="M20 0h20v120H20zM60 0h20v120H60z" fill="${c}"/>`,c=>`<path d="M0 24h100v24H0zM0 72h100v24H0z" fill="${c}"/>`,c=>`<path d="M50 0h50v120H50z" fill="${c}"/>`,c=>`<path d="M0 0h50v60H0zM50 60h50v60H50z" fill="${c}"/>`,c=>`<path d="M0 8V40L100 104V72Z" fill="${c}"/>`,c=>`<path d="M0 40L50 72L100 40V66L50 98L0 66Z" fill="${c}"/>`,c=>{let d='';for(let i=0;i<4;i++)for(let j=0;j<4;j++)if((i+j)%2)d+=`M${i*25} ${j*30}h25v30h-25z`;return`<path d="${d}" fill="${c}"/>`},c=>`<path d="M40 0h20v120H40zM0 46h100v20H0z" fill="${c}"/>`,
+ c=>`<path d="M0 0h100v58H0z" fill="${c}"/>`,c=>`<path d="M0 0H100V120Z" fill="${c}"/>`,c=>`<path d="M0 12L12 0L100 108L88 120ZM100 12L88 0L0 108L12 120Z" fill="${c}"/>`,
+ c=>`<path d="${[0,1,2,3,4,5].map(i=>`M${6+i*17} 0h7v120h-7z`).join('')}" fill="${c}"/>`,
+ c=>`<g fill="${c}">${[0,1,2,3,4,5].map(j=>[0,1,2,3,4].map(i=>`<circle cx="${10+i*20+(j%2)*10}" cy="${10+j*20}" r="4.5"/>`).join('')).join('')}</g>`,
+ c=>`<path d="${Array.from({length:12},(_,k)=>{const a=k*Math.PI/6,b=a+Math.PI/12,f=t=>(50+Math.cos(t)*130).toFixed(0)+' '+(58+Math.sin(t)*130).toFixed(0);return`M50 58L${f(a)}L${f(b)}Z`}).join('')}" fill="${c}"/>`,
+ c=>`<path d="M0 46h100v28H0z" fill="${c}"/>`,c=>`<circle cx="50" cy="58" r="36" fill="none" stroke="${c}" stroke-width="9"/>`];
 const poly=(n,x,y,R,a0)=>Array.from({length:n},(_,i)=>{const a=a0+i*2*Math.PI/n;return(x+Math.cos(a)*R).toFixed(1)+','+(y+Math.sin(a)*R).toFixed(1)}).join(' ');
 const starP=(x,y,R)=>Array.from({length:10},(_,i)=>{const a=-Math.PI/2+i*Math.PI/5,q=i%2?R*.42:R;return(x+Math.cos(a)*q).toFixed(1)+','+(y+Math.sin(a)*q).toFixed(1)}).join(' ');
-const EMB=[()=>'',()=>`<polygon points="${starP(50,58,25)}"/>`,()=>`<circle cx="50" cy="58" r="19"/><polygon points="${poly(5,50,58,8,-Math.PI/2)}" fill="#10181f"/><path d="M50 50V42M57 56L65 52M54 66L58 73M46 66L42 73M43 56L35 52" fill="none"/>`,()=>`<polygon points="57,32 36,62 48,62 42,88 66,54 53,54"/>`,()=>`<polygon points="32,78 32,44 43,57 50,40 57,57 68,44 68,78"/>`,()=>`<polygon points="50,34 70,58 50,84 30,58"/>`];
+const EMB=[()=>'',()=>`<polygon points="${starP(50,58,25)}"/>`,()=>`<circle cx="50" cy="58" r="19"/><polygon points="${poly(5,50,58,8,-Math.PI/2)}" fill="#10181f"/><path d="M50 50V42M57 56L65 52M54 66L58 73M46 66L42 73M43 56L35 52" fill="none"/>`,()=>`<polygon points="57,32 36,62 48,62 42,88 66,54 53,54"/>`,()=>`<polygon points="32,78 32,44 43,57 50,40 57,57 68,44 68,78"/>`,()=>`<polygon points="50,34 70,58 50,84 30,58"/>`,
+ ()=>`<polygon points="42,34 58,34 58,50 74,50 74,66 58,66 58,82 42,82 42,66 26,66 26,50 42,50"/>`,
+ ()=>`<path d="M50 84C28 66 26 46 38 40C45 37 50 42 50 46C50 42 55 37 62 40C74 46 72 66 50 84Z"/>`,
+ ()=>`<path d="M55.2 34.6A24 24 0 1 0 69.9 71.3A20 20 0 1 1 55.2 34.6Z"/>`,
+ ()=>`<path d="M50 32C54 44 68 50 66 66C65 78 58 84 50 84C42 84 35 78 34 66C33 56 40 52 42 44C46 48 47 50 48 52C50 46 50 40 50 32Z"/>`,
+ ()=>`<circle cx="50" cy="58" r="11"/>`+Array.from({length:8},(_,k)=>{const a=k*Math.PI/4;return`<polygon points="${[[16,a-.22],[28,a],[16,a+.22]].map(([q,t])=>(50+Math.cos(t)*q).toFixed(1)+','+(58+Math.sin(t)*q).toFixed(1)).join(' ')}"/>`}).join(''),
+ ()=>`<polygon points="24,82 42,50 52,66 62,44 78,82"/>`,
+ ()=>`<polygon points="34,82 34,46 40,46 40,53 46,53 46,46 54,46 54,53 60,53 60,46 66,46 66,82"/>`,
+ ()=>`<polygon points="50,32 74,58 61,58 61,84 39,84 39,58 26,58"/>`,
+ ()=>`<circle cx="35" cy="52" r="6.5"/><circle cx="46" cy="42" r="6.5"/><circle cx="57" cy="42" r="6.5"/><circle cx="68" cy="52" r="6.5"/><ellipse cx="51.5" cy="68" rx="16" ry="12"/>`];
+const BD=[3,5,8,5],ES=[.75,1,1.3],SZ=[[50],[41,59],[34,50,66]];
 const PAL=[['#d9363e','#ffffff','#10181f'],['#2f6fe0','#ffffff','#e8ff5a'],['#7b1e3a','#4aa3ff','#ffd54a'],['#ffffff','#10181f','#d9363e'],['#ffd54a','#10181f','#ffffff'],['#1f8a4c','#ffffff','#ffd54a'],['#ff8a1f','#10181f','#ffffff'],['#4aa3ff','#ffffff','#10181f'],['#6a2c91','#ffffff','#ffd54a'],['#10181f','#d9363e','#ffffff']];
 const hx=v=>/^#[0-9a-f]{6}$/i.test(v);
-const okc=c=>{c=c||{};const n=(v,m,d)=>Number.isInteger(v)&&v>=0&&v<m?v:d;return{sh:n(c.sh,SHP.length,0),pt:n(c.pt,PTN.length,1),em:n(c.em,EMB.length,1),c1:hx(c.c1)?c.c1:'#2f6fe0',c2:hx(c.c2)?c.c2:'#ffffff',c3:hx(c.c3)?c.c3:'#e8ff5a'}};
-const rndCr=()=>{const p=PAL[r()*PAL.length|0];return{sh:r()*SHP.length|0,pt:r()*PTN.length|0,em:r()*EMB.length|0,c1:p[0],c2:p[1],c3:p[2]}};
+const okc=c=>{c=c||{};const n=(v,m,d)=>Number.isInteger(v)&&v>=0&&v<m?v:d,c3=hx(c.c3)?c.c3:'#e8ff5a';return{sh:n(c.sh,SHP.length,0),pt:n(c.pt,PTN.length,1),em:n(c.em,EMB.length,1),c1:hx(c.c1)?c.c1:'#2f6fe0',c2:hx(c.c2)?c.c2:'#ffffff',c3,c4:hx(c.c4)?c.c4:c3,bd:n(c.bd,4,1),es:n(c.es,3,1),st:n(c.st,4,0),tx:typeof c.tx=='string'?c.tx.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,3):''}};
+const rndCr=()=>{const p=pk(PAL);return{sh:r()*SHP.length|0,pt:r()*PTN.length|0,em:r()*EMB.length|0,c1:p[0],c2:p[1],c3:p[2],c4:p[2],bd:r()*4|0,es:r()*3|0,st:r()<.7?0:1+(r()*3|0),tx:''}};
 let cid=0;
-function crest(c,w){const i=++cid,p=SHP[c.sh];
- return`<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 108 128" width="${w}" height="${Math.round(w*1.185)}" style="display:block"><defs><clipPath id="cc${i}"><path d="${p}"/></clipPath></defs><path d="${p}" fill="${c.c1}" stroke="#10181f" stroke-width="9" stroke-linejoin="round"/><g clip-path="url(#cc${i})">${PTN[c.pt](c.c2)}</g><path d="${p}" fill="none" stroke="${c.c3}" stroke-width="5" stroke-linejoin="round"/><g fill="${c.c3}" stroke="#10181f" stroke-width="2.2" stroke-linejoin="round">${EMB[c.em]()}</g></svg>`}
+function crest(c,w){const i=++cid,p=SHP[c.sh],tx=c.tx||'',oy=c.st?8:0,
+ em=tx?`<text x="50" y="${58+oy}" dy=".35em" text-anchor="middle" font-family="Impact,Arial Black,sans-serif" font-weight="900" font-size="${[0,46,38,30][tx.length]}" fill="${c.c4}" stroke="#10181f" stroke-width="3" paint-order="stroke" stroke-linejoin="round">${tx}</text>`:`<g transform="translate(50 ${58+oy}) scale(${ES[c.es]}) translate(-50 -58)" fill="${c.c4}" stroke="#10181f" stroke-width="2.2" stroke-linejoin="round">${EMB[c.em]()}</g>`;
+ return`<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 108 128" width="${w}" height="${Math.round(w*1.185)}" style="display:block"><defs><clipPath id="cc${i}"><path d="${p}"/></clipPath></defs><path d="${p}" fill="${c.c1}" stroke="#10181f" stroke-width="9" stroke-linejoin="round"/><g clip-path="url(#cc${i})">${PTN[c.pt](c.c2)}</g><path d="${p}" fill="none" stroke="${c.c3}" stroke-width="${BD[c.bd]}" stroke-linejoin="round"/>${c.bd==3?`<path d="${p}" transform="translate(50 60) scale(.85) translate(-50 -60)" fill="none" stroke="${c.c3}" stroke-width="2.4" stroke-linejoin="round"/>`:''}${c.st?SZ[c.st-1].map(x=>`<polygon points="${starP(x,25,5.6)}" fill="${c.c3}" stroke="#10181f" stroke-width="1.3"/>`).join(''):''}${em}</svg>`}
 const CI={},cimg=c=>{const k=JSON.stringify(c);return CI[k]||(CI[k]=Object.assign(new Image(),{src:'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(crest(c,100))}))};
 const flag=c=>`<img class=fl src="https://flagcdn.com/24x18/${c.toLowerCase()}.png" alt="${c}">`;
+const calc=(s,ro)=>cl(Math.round(s.reduce((a,v,i)=>a+v*WT[ro][i],0)),20,99);
 function gen(role,q,ci){
  const c=C[ci==null?r()*C.length|0:ci],B=q+(r()+r()+r()-1.5)*18;
  role=role||['DEF','DEF','MID','MID','MID','FWD','FWD','FWD','GK'][r()*9|0];
  const s=OFF[role].map((o,i)=>cl(Math.round(B+o+c.b[i]+R(-8,8)),15,97));
  s.push(role=='GK'?cl(Math.round(B+12+R(-6,6)),15,97):Math.round(R(8,30)));
- const ovr=cl(Math.round(s.reduce((a,v,i)=>a+v*WT[role][i],0)),20,99);
+ const ovr=calc(s,role);
  const f=c.f[r()*c.f.length|0],l=c.l[r()*c.l.length|0];
  return fix({n:c.c=='BR'&&r()<.4?l:f+' '+l,c:c.c,role,s,ovr,num:role=='GK'?1:2+(r()*98|0)});}
+// a club squad (5 starters + 2 bench) tuned so the starters' average rating equals the target
+const teamRt=q=>Math.round(q.slice(0,5).reduce((a,p)=>a+p.ovr,0)/5);
+function squad(target,ci){const q=['GK','DEF','DEF','MID','FWD','MID','DEF'].map(ro=>gen(ro,target,ci));
+ for(let k=0;k<5;k++){const d=target-q.slice(0,5).reduce((a,p)=>a+p.ovr,0)/5;if(Math.abs(d)<.5)break;
+  q.forEach(p=>{p.s=p.s.map((v,i)=>i==5&&p.role!='GK'?v:cl(Math.round(v+d),15,97));p.ovr=calc(p.s,p.role)})}
+ return q}
 const cost=p=>Math.round(50*Math.pow(p.ovr/40,6)*(1+(Math.max(...p.s)-p.ovr)/200)/10)*10;
 const mkList=()=>Array.from({length:30},()=>gen(null,35+Math.pow(r(),1.7)*45));
-let S;try{S=JSON.parse(localStorage.numfc||'null')}catch(e){}
+let S,fresh;try{S=JSON.parse(localStorage.numfc||'null')}catch(e){}
+fresh=!S;
 S=S||{coins:800,sq:[gen('GK',40),gen('DEF',40),gen('DEF',40),gen('MID',40),gen('FWD',40),gen('MID',40)],mk:mkList()};
+if(fresh)S.setup=1;
 S.sq.forEach(fix);S.mk.forEach(fix);
 S.team=String(S.team||(S.nick&&!/^Player\d+$/.test(S.nick)?S.nick:'My FC')).slice(0,16);delete S.nick;
 S.crest=S.crest?okc(S.crest):rndCr();
@@ -203,15 +258,20 @@ function sell(i){if(S.sq.length<=5)return alert('You need at least 5 players.');
 function buy(i){const p=S.mk[i];if(S.coins<cost(p)||S.sq.length>=12)return;S.coins-=cost(p);S.sq.push(p);S.mk.splice(i,1);save();ui()}
 function rf(){if(S.coins<25)return;S.coins-=25;S.mk=mkList();save();ui()}
 $('#nk').oninput=e=>{S.team=e.target.value.slice(0,16)||'My FC';save();chdr()};
-const chdr=()=>{$('#hc').innerHTML=crest(S.crest,24)+flag(S.cc)+'<span>'+esc(S.team)+'</span>';$('#cpn').textContent=S.team;home()};
+const chdr=()=>{$('#hc').innerHTML=crest(S.crest,24)+flag(S.cc)+'<span>'+esc(S.team)+'</span>';document.querySelectorAll('.cpn').forEach(e=>e.textContent=S.team);home()};
 const setC=(k,v,skip)=>{S.crest[k]=v;save();cui(skip);chdr()};
-const setPal=i=>{const p=PAL[i];Object.assign(S.crest,{c1:p[0],c2:p[1],c3:p[2]});save();cui();chdr()};
+const setPal=i=>{const p=PAL[i];Object.assign(S.crest,{c1:p[0],c2:p[1],c3:p[2],c4:p[2]});save();cui();chdr()};
 const rndC=()=>{S.crest=rndCr();save();cui();chdr()};
-function cui(skip){const c=S.crest,opt=(k,n,cur)=>Array.from({length:n},(_,i)=>`<button class="alt${i==cur?' on':''}" onclick="setC('${k}',${i})">${crest({...c,[k]:i},40)}</button>`).join('');
- $('#cpv').innerHTML=crest(c,150);$('#cpn').textContent=S.team;
- $('#cps').innerHTML=opt('sh',SHP.length,c.sh);$('#cpp').innerHTML=opt('pt',PTN.length,c.pt);$('#cpe').innerHTML=opt('em',EMB.length,c.em);
- $('#cpl').innerHTML=PAL.map((p,i)=>`<button class=alt style="width:56px;height:30px;padding:0;background:linear-gradient(90deg,${p[0]} 34%,${p[1]} 34% 67%,${p[2]} 67%)" onclick="setPal(${i})"></button>`).join('');
- if(!skip){$('#ccs').innerHTML=OPT(C.map(c=>[c.c,cname(c.c)]).sort((a,b)=>a[1]<b[1]?-1:1),S.cc);['c1','c2','c3'].forEach((k,i)=>$('#k'+(i+1)).value=c[k])}}
+// crest editor: one skeleton shared by the Club tab and the first-time setup screen (every .ced element)
+const CED=`<div class=split><div class=side><div class=cpw><div class=cpv></div><b class=cpn></b></div><p><button onclick="rndC()">Randomize crest</button></p></div><div><h3>Shape</h3><div class="cps opts"></div><h3>Pattern</h3><div class="cpp opts"></div><h3>Emblem</h3><div class="cpe opts"></div><h3>Border</h3><div class="cpb opts"></div><h3>Emblem size</h3><div class="cpz opts"></div><h3>Stars on top</h3><div class="cpt opts"></div><h3>Letters <small class=note>(1-3, replace the emblem)</small></h3><p><input class=ktx maxlength=3 size=5 placeholder="ABC" style="text-transform:uppercase" oninput="setC('tx',this.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,3),1)"></p><h3>Colours</h3><p>Main <input type=color class=k1 oninput="setC('c1',this.value,1)"> Second <input type=color class=k2 oninput="setC('c2',this.value,1)"> Trim <input type=color class=k3 oninput="setC('c3',this.value,1)"> Emblem <input type=color class=k4 oninput="setC('c4',this.value,1)"></p><div class="cpl opts"></div><p class="note help">Your crest is saved on this device and shown to your opponent in matches.</p></div></div>`;
+const CCL=()=>C.map(c=>[c.c,cn2(c.c)]).sort((a,b)=>a[1]<b[1]?-1:1);
+function cui(skip){const c=S.crest;
+ document.querySelectorAll('.ced').forEach(e=>{if(!e.firstChild)e.innerHTML=CED;const q=s=>e.querySelector(s),opt=(k,n)=>Array.from({length:n},(_,i)=>`<button class="alt${i==c[k]?' on':''}" onclick="setC('${k}',${i})">${crest({...c,[k]:i},40)}</button>`).join('');
+  q('.cpv').innerHTML=crest(c,150);q('.cpn').textContent=S.team;
+  [['cps','sh',SHP.length],['cpp','pt',PTN.length],['cpe','em',EMB.length],['cpb','bd',4],['cpz','es',3],['cpt','st',4]].forEach(([s,k,n])=>q('.'+s).innerHTML=opt(k,n));
+  q('.cpl').innerHTML=PAL.map((p,i)=>`<button class=alt style="width:56px;height:30px;padding:0;background:linear-gradient(90deg,${p[0]} 34%,${p[1]} 34% 67%,${p[2]} 67%)" onclick="setPal(${i})"></button>`).join('');
+  if(!skip){[1,2,3,4].forEach(i=>q('.k'+i).value=c['c'+i]);q('.ktx').value=c.tx}});
+ if(!skip)document.querySelectorAll('.ccs').forEach(e=>e.innerHTML=OPT(CCL(),S.cc))}
 function setCC(v){if(v==S.cc)return;if(S.lg&&(S.lg.rd>0||S.lg.tier<4||S.lg.sn>1||S.lg.st!='season')&&!confirm('Changing country starts a new league career from the bottom division. Continue?')){cui();return}S.cc=v;S.lg=null;save();chdr();cui()}
 const st=m=>$('#st').textContent=m;
 $('#fmb').innerHTML=Object.keys(FM).map(k=>`<button class=alt onclick="setFm('${k}')">${k}</button>`).join('');rbar('s');rbar('m');
@@ -219,6 +279,27 @@ let dg=-1,mv=0;const fmE=$('#fm');
 fmE.onpointerdown=e=>{const d=e.target.closest('.dot');if(d){dg=+d.dataset.i;mv=0;fmE.setPointerCapture(e.pointerId)}};
 fmE.onpointermove=e=>{if(dg<1)return;mv=1;const b=fmE.getBoundingClientRect();S.fm[dg]=[cl((e.clientX-b.left)/b.width,.08,.78),cl((e.clientY-b.top)/b.height,.08,.92)];rMap()};
 fmE.onpointerup=()=>{if(dg>=0){if(mv){save();ui()}else pick(dg)}dg=-1};
+
+// ---------- first-time setup (shown when there is no save yet) ----------
+let su=0;
+function showSetup(){su=0;$('#setup').hidden=false;
+ $('#setup').innerHTML=`<div class=sw><div class=slogo>NUMBERS<i> FC</i></div><div class=sdots><span></span><span></span><span></span></div>
+<section class=sp><h1>Welcome, manager!</h1><p class=note>Create your club and climb the league pyramid. First, who are you?</p><h3>Club name</h3><div class=jrow><input id=snk maxlength=16 placeholder="Your club name" onkeydown="if(event.key=='Enter')sGo(1)"><button class=alt onclick="sName()">Suggest</button></div><h3>Country</h3><select id=scc class=ccs onchange="setCC(this.value);sCt()"></select><p id=sct class=note></p></section>
+<section class=sp><h1>Design your crest</h1><p class=note>Pick a shape, pattern, emblem and colours – or hit randomize.</p><div class=ced></div></section>
+<section class=sp><h1>Ready to play</h1><div id=ssum></div></section>
+<div class=snav><button class=alt id=sbk onclick="sGo(-1)">Back</button><button id=snx onclick="sGo(1)">Next</button></div></div>`;
+ $('#snk').value='';cui();sCt();sUI()}
+function sCt(){const u=[];while(u.length<3){const n=clubName(S.cc);if(!u.includes(n))u.push(n)}
+ $('#sct').innerHTML=`${flag(S.cc)} You start in the <b>${TN[3]}</b> of the ${esc(cn2(S.cc))} league. Rivals you'll meet: ${u.map(esc).join(', ')}…`}
+function sName(){let n;for(let i=0;i<30;i++){n=clubName(S.cc);if(n.length<=16)break}$('#snk').value=n.slice(0,16);$('#snk').style.outline=''}
+function sGo(d){
+ if(d>0&&su==0){const v=$('#snk').value.trim();if(!v){$('#snk').style.outline='2px solid #ff6b6b';return $('#snk').focus()}S.team=v.slice(0,16);save();chdr();cui(1)}
+ if(d>0&&su==2){S.setup=0;newSeason(4);save();$('#setup').hidden=true;chdr();ui();return tab(0)}
+ su=cl(su+d,0,2);sUI()}
+function sUI(){
+ document.querySelectorAll('#setup .sp').forEach((e,i)=>e.hidden=i!=su);document.querySelectorAll('.sdots span').forEach((e,i)=>e.className=i<=su?'on':'');
+ $('#sbk').style.visibility=su?'visible':'hidden';$('#snx').textContent=su==2?'Kick off!':'Next';$('#setup').scrollTop=0;
+ if(su==2)$('#ssum').innerHTML=`<div class=hero><div>${crest(S.crest,110)}</div><div><div class=hnm>${esc(S.team)}</div><div class=note>${flag(S.cc)} ${esc(cn2(S.cc))} - ${TN[3]}</div><div class=hst><div><b>${myRt()}</b><small>Rating</small></div><div><b>${S.coins}</b><small>Coins</small></div></div></div></div><h3>Your starting squad</h3><div class=grid>${S.sq.map(p=>card(p,'','','')).join('')}</div><p class=note>Improve it in the Market, set your formation in the Squad tab, then play the league.</p>`}
 
 // ---------- match engine (host / solo simulates, guest renders) ----------
 let M=null,net=null,conn=null,keys={},ch=0,last=0;
@@ -247,15 +328,17 @@ function play(n,x,y){const m=M;if(!m)return;
 function ev(n,x,y){play(n,x,y);if(M&&M.online&&M.host)M.evq.push([n,x|0,y|0])}
 const mkTeam=(sq,fm)=>sq.slice(0,5).map((p,i)=>({...p,s0:p.s,chk:1,hp:[...fm[i]]}));
 function newMatch(teams,names,online,host,bench,cr){
- M={pl:[],ball:{x:W/2,y:H/2,tx:W/2,ty:H/2,vx:0,vy:0,o:null},sc:[0,0],time:120,fz:2,pend:0,gl:0,w:'',ctrl:[4,online?9:-1],inp:[{x:0,y:0},{x:0,y:0}],hum:[1,online],names,online,host,myT:host?0:1,acc:0,bench,subs:[0,0],evq:[],fx:[],tr:[],shake:0,toast:null,t5:4,last:null,ms:{},pk:null,pt:0,svd:0,cr:cr||[S.crest,rndCr()]};
+ M={pl:[],ball:{x:W/2,y:H/2,tx:W/2,ty:H/2,vx:0,vy:0,o:null},sc:[0,0],time:120,fz:2,pend:0,gl:0,w:'',ctrl:[4,online?9:-1],inp:[{x:0,y:0},{x:0,y:0}],hum:[1,online],names,online,host,myT:host?0:1,acc:0,bench,subs:[0,0],evq:[],fx:[],tr:[],shake:0,toast:null,t5:4,last:null,ms:{},pk:null,pt:0,svd:0,cr:cr||[S.crest,rndCr()],lm:0,lx:0,lend:0,lt:0};
  teams.forEach((tm,t)=>tm.forEach((p,i)=>M.pl.push({...p,t,i,k:t*5+i,x:0,y:0,tx:0,ty:0,vx:0,vy:0,fx:t?-1:1,fy:0,cd:0,tcd:0,hold:0,st:1})));
  rs(0);rs(1);M.pl.forEach(p=>rec(p));
  kickoff(0);$('#game').style.display='block';$('#res').hidden=true;$('#sub').hidden=true;ev('whistle')}
 function kickoff(t){const m=M,b=m.ball;
  m.pl.forEach(p=>{const h=p.hp||[.3,.5];p.x=p.tx=(p.t?1-h[0]:h[0])*W;p.y=p.ty=h[1]*H;p.vx=p.vy=0;p.cd=0;p.hold=0});
  const k=m.pl[t*5+4];k.x=k.tx=W/2+(t?14:-14);k.y=k.ty=H/2;b.x=b.tx=W/2;b.y=b.ty=H/2;b.vx=b.vy=0;b.o=k;if(m.hum[t])m.ctrl[t]=k.k}
+// final play: once the clock is at 0 the match ends when the ball hits a wall, an opponent touches it, or possession swaps
+const dead=p=>{if(M.lm&&p.t!=M.lt)M.lend=1};
 // a player who takes the ball straight from a teammate's pass is remembered for the assist
-function take(p){const b=M.ball;b.o=p;p.hold=0;b.vx=b.vy=0;p.ar=M.pk&&M.pk!=p&&M.pk.t==p.t&&M.last==M.pk&&M.pt-M.time<2.5?M.pk:null;p.at=M.time;if(M.hum[p.t]&&p.i)M.ctrl[p.t]=p.k}
+function take(p){const b=M.ball;b.o=p;p.hold=0;b.vx=b.vy=0;p.ar=M.pk&&M.pk!=p&&M.pk.t==p.t&&M.last==M.pk&&M.pt-M.time<2.5?M.pk:null;p.at=M.time;if(M.hum[p.t]&&p.i)M.ctrl[p.t]=p.k;dead(p)}
 function kick(p,tx,ty,v,err){const b=M.ball,a=Math.atan2(ty-p.y,tx-p.x)+R(-err,err);M.last=p;M.svd=0;b.o=null;b.vx=Math.cos(a)*v;b.vy=Math.sin(a)*v;b.x=p.x+Math.cos(a)*15;b.y=p.y+Math.sin(a)*15;p.cd=.4;p.hold=0}
 const shoot=(p,pw,ay)=>{ev('shot',p.x,p.y);kick(p,p.t?0:W,ay,(250+p.s[1]*4.5)*(.55+.45*pw),(100-p.s[1])/100*.3*ek(p));M.pk=null};
 function pass(p,m){if(!m)return shoot(p,.8,H/2);ev('pass',p.x,p.y);const d=hy(m.x-p.x,m.y-p.y);kick(p,m.x+m.vx*.35,m.y+m.vy*.35,cl(d*1.05+90,200,720),(100-p.s[2])/100*.2*ek(p));M.pk=p;M.pt=M.time}
@@ -277,8 +360,9 @@ function aiSub(){const m=M,B=m.bench[1];if(m.subs[1]>=3||!B.length)return;const 
 function ai(p,dt,pr){
  const m=M,b=m.ball,t=p.t,dir=t?-1:1,gx=t?0:W,op=T(1-t),h=p.hp,ot=b.o?b.o.t:-1,hx=(t?1-h[0]:h[0])*W,hY=h[1]*H;
  if(b.o==p){p.hold+=dt;
-  if(!p.i){if(p.hold>.8)pass(p,best(p,dir,0));return[p.x,p.y]}
+  if(!p.i){if(p.hold>(m.lm?.3:.8))pass(p,best(p,dir,0));return[p.x,p.y]}
   const dg=hy(gx-p.x,H/2-p.y),nn=nearest(p,op);
+  if(m.lm&&dg<340&&p.hold>.12){shoot(p,.85+r()*.15,H/2+(op[0].y>H/2?-1:1)*R(35,70));return[p.x,p.y]}
   if(dg<120+p.s[1]*1.8+(p.mn-1)*25+(p.pe==2?25:0)&&p.hold>.2&&r()<dt*(lane(p)?7:2)){shoot(p,.7+r()*.3,H/2+(op[0].y>H/2?-1:1)*R(35,70));return[p.x,p.y]}
   if((p.hold>(p.pe==1?.7:p.pe==2?1.7:1.1)||nn.d<48)&&r()<dt*5){const q=best(p,dir,0);if(q&&(nn.d<48||(q.x-p.x)*dir>-30)){pass(p,q);return[p.x,p.y]}}
   let ex_=gx-p.x,ey=H/2+(p.y-H/2)*.5-p.y;if(nn.d<75){ex_+=(p.x-nn.p.x)*3;ey+=(p.y-nn.p.y)*3}
@@ -296,10 +380,12 @@ function ai(p,dt,pr){
   if(h[0]>.5)tx=gx-dir*(150+(p.i%2)*90)}
  else tx-=dir*.03*W;
  tx+=(b.x-tx)*(ot==t?.15:.3);ty+=(b.y-ty)*.2;return[tx,ty]}
+function endMatch(){const m=M;ev('whistle');if(m.online&&conn&&conn.open)conn.send({k:'end',sc:m.sc,ms:m.ms});finish(m.sc)}
 function step(dt){
  const m=M,b=m.ball,pl=m.pl;
- if(m.fz>0){m.fz-=dt;if(m.fz<=0&&m.pend!=null){kickoff(m.pend);m.pend=null;m.gl=0;ev('whistle')}return}
- m.time-=dt;if(m.time<=0){ev('whistle');if(m.online&&conn&&conn.open)conn.send({k:'end',sc:m.sc,ms:m.ms});return finish(m.sc)}
+ if(m.fz>0){m.fz-=dt;if(m.fz<=0){if(m.lm)return endMatch();if(m.pend!=null){kickoff(m.pend);m.pend=null;m.gl=0;ev('whistle')}}return}
+ if(m.lm){if((m.lx+=dt)>15||m.lend)return endMatch()}
+ else if((m.time-=dt)<=0){m.time=0;m.lm=1;m.lx=0;m.lend=0;m.lt=b.o?b.o.t:m.last?m.last.t:0;ev('whistle');m.toast=['Final play!',2.5]}
  if(!m.online&&(m.t5-=dt)<=0){m.t5=4;aiSub()}
  const tg=b.o||b,pr=[0,1].map(t=>T(t).filter(p=>p.i&&m.ctrl[t]!=p.k&&b.o!=p).sort((a,c)=>hy(a.x-tg.x,a.y-tg.y)-hy(c.x-tg.x,c.y-tg.y)).map(p=>p.k));
  for(const p of pl){
@@ -322,17 +408,17 @@ function step(dt){
  if(b.o){const o=b.o;b.x=o.x+o.fx*13;b.y=o.y+o.fy*13}
  else{
   b.x+=b.vx*dt;b.y+=b.vy*dt;const f=Math.pow(.4,dt);b.vx*=f;b.vy*=f;
-  if(b.y<4||b.y>H-4){b.y=cl(b.y,4,H-4);b.vy*=-.6}
-  if(b.x<0||b.x>W){if(b.y>G0&&b.y<G1)return goal(b.x<0?1:0);b.x=b.x<0?0:W;b.vx*=-.6}
+  if(b.y<4||b.y>H-4){b.y=cl(b.y,4,H-4);b.vy*=-.6;if(m.lm)m.lend=1}
+  if(b.x<0||b.x>W){if(b.y>G0&&b.y<G1)return goal(b.x<0?1:0);b.x=b.x<0?0:W;b.vx*=-.6;if(m.lm)m.lend=1}
  }
  const sp=hy(b.vx,b.vy);
  for(const p of pl){
   if(p.cd>0||hy(p.x-b.x,p.y-b.y)>(p.i?17:26))continue;
   if(b.o){if(b.o.t!=p.t&&p.tcd<=0){p.tcd=.6;const o=b.o;if(r()<cl(.5+(p.s[3]-(o.s[0]+o.s[2])/2)/150+(p.te==2?.07:0),.15,.85)){o.cd=.6;ev('tackle',p.x,p.y);take(p)}}}
   else if(!p.i&&sp>120){ev('save',p.x,p.y);if(m.last&&m.last.t!=p.t&&!m.pk&&!m.svd){rec(p).sv++;m.svd=1}
-   if(r()>.35+p.s[5]/160){b.vx=(p.t?-1:1)*Math.abs(b.vx)*.6;b.vy=R(-200,200);p.cd=.4}else take(p)}
+   if(r()>.35+p.s[5]/160){b.vx=(p.t?-1:1)*Math.abs(b.vx)*.6;b.vy=R(-200,200);p.cd=.4;dead(p)}else take(p)}
   else if(!p.i||sp<380||r()<.55+p.s[2]/250)take(p);
-  else{b.vx*=.5;b.vy=b.vy*.5+R(-90,90);p.cd=.25}
+  else{b.vx*=.5;b.vy=b.vy*.5+R(-90,90);p.cd=.25;dead(p)}
  }
 }
 function finish(sc,ms){const m=M;if(m.over)return;m.over=1;ms=ms||m.ms;
@@ -353,27 +439,31 @@ function home(){const g=S.lg,CH=curChem(),df=S.df==null?-2:S.df;
  $('#lgs').textContent=!g?'Start your career in the '+TN[3]:g.st=='season'?`Next: ${g.tm[nextOpp(g)].n} - match ${g.rd+1} of 9`:g.st=='wc'?(g.wc.end?'World Club Championship over - open the League tab':`World Club Championship ${RN[g.wc.rd]} vs ${g.wc.tm[wcOpp(g.wc)].n}`):'Season over - open the League tab for the results';
  $('#dfs').innerHTML=[['Easy',-8],['Normal',-2],['Hard',6]].map(([n,v])=>`<button class="alt${df==v?' on':''}" onclick="setDf(${v})">${n}</button>`).join('');
  $('#tsq').textContent='Team rating '+myRt();$('#tmk').textContent=S.mk.length+' players listed'}
-function vs(q,ci,name,cr,lg){const mine=mkTeam(S.sq,S.fm),fm=FM[Object.keys(FM)[r()*5|0]],gn=ro=>gen(ro,q,ci),
- opp=['GK','DEF','DEF','MID','FWD'].map(gn).map((p,i)=>({...p,hp:fm[i],s0:p.s}));
- newMatch([mine,opp],[S.team,name],false,true,[S.sq.slice(5),[gn('MID'),gn('DEF')]],[S.crest,cr]);
- if(lg){M.lg=lg;M.tag=lg=='L'?`League · ${TN[S.lg.tier-1]} · Match ${S.lg.rd+1} of 9`:`World Club Championship · ${RN[S.lg.wc.rd]}`}}
-const myRt=()=>Math.round(S.sq.slice(0,5).reduce((a,p)=>a+p.ovr,0)/5);
-function vsAI(){const ci=r()*C.length|0;vs(myRt()-4+(S.df==null?-2:S.df)+R(-4,4),ci,cn2(C[ci].c)+' '+['United','City','Rovers','Athletic','Stars'][r()*5|0],rndCr())}
+// club = {sq:[5 starters + 2 bench]}; the opponent fields exactly this squad
+function vs(club,ci,name,cr,lg){const mine=mkTeam(S.sq,S.fm),fm=FM[Object.keys(FM)[r()*5|0]],sq=club.sq,
+ opp=sq.slice(0,5).map((p,i)=>({...p,hp:fm[i],s0:p.s})),rt=teamRt(sq);
+ newMatch([mine,opp],[S.team,name],false,true,[S.sq.slice(5),sq.slice(5)],[S.crest,cr]);
+ M.tag=lg=='L'?`League · ${TN[S.lg.tier-1]} · Match ${S.lg.rd+1} of 9 · opponent rating ${rt}`:lg=='W'?`World Club Championship · ${RN[S.lg.wc.rd]} · opponent rating ${rt}`:`Friendly · opponent rating ${rt}`;if(lg)M.lg=lg}
+const myRt=()=>teamRt(S.sq);
+function vsAI(){const ci=r()*C.length|0,rt=Math.round(myRt()-4+(S.df==null?-2:S.df)+R(-4,4));vs({sq:squad(rt,ci)},ci,clubName(C[ci].c),rndCr())}
 
 // ---------- league career: divisions, seasons, World Club Championship ----------
 const TN=['Premier Division','Second Division','Third Division','Fourth Division'],TR=[72,62,52,42],TB=[700,350,180,90],RN=['Round of 16','Quarter-final','Semi-final','Final'],WP=[1500,3000,6000,10000];
 const cn2=c=>c=='GB'?'England':cname(c),nth=n=>n+(n%10==1&&n!=11?'st':n%10==2&&n!=12?'nd':n%10==3&&n!=13?'rd':'th');
-const SY=['Bel','Mar','Vor','San','Kal','Dor','Lim','Tor','Ven','Rav','Sol','Nor','Pel','Cas','Ald','Bur','Gra','Hel','Kor','Zal'],SX=['ton','ova','burg','ia','mo','grad','ville','dor','na','ford','ley','ham'],SF=['United','City','Rovers','Athletic','Town','Wanderers','Sporting','Dynamo','FC'];
-const clubName=()=>SY[r()*SY.length|0]+SX[r()*SX.length|0]+' '+SF[r()*SF.length|0];
 const poi=l=>{const L=Math.exp(-l);let k=0,p=1;do{k++;p*=r()}while(p>L);return k-1};
 const sim=(a,b)=>[poi(1.5*Math.exp((a-b)/30)),poi(1.5*Math.exp((b-a)/30))];
 const shuf=a=>a.sort(()=>r()-.5);
 const tmn=(tm,i)=>i?tm[i].n:S.team,tcr=(tm,i)=>i?tm[i].cr:S.crest;
+const five=t=>t.sq.slice(0,5).map(p=>p.role+' '+p.n.split(' ').pop()+' '+p.ovr).join(' · ');
 // circle method: 10 clubs, 9 rounds, every pair meets exactly once
 function sched(n){const a=[...Array(n).keys()],o=[];for(let k=0;k<n-1;k++){const p=[];for(let i=0;i<n/2;i++)p.push([a[i],a[n-1-i]]);o.push(p);a.splice(1,0,a.pop())}return o}
-function newSeason(tier){const used=new Set([S.team]),tm=[{me:1,rt:0,p:0,w:0,d:0,l:0,gf:0,ga:0}];
- while(tm.length<10){const n=clubName();if(used.has(n))continue;used.add(n);tm.push({n,cr:rndCr(),rt:Math.round(TR[tier-1]+R(-9,9)),p:0,w:0,d:0,l:0,gf:0,ga:0})}
+// every club gets a squad; its rating is the calculated average of the starters, and it decides league results
+function newSeason(tier){const used=new Set([S.team]),ci=C.findIndex(c=>c.c==S.cc),tm=[{me:1,rt:0,p:0,w:0,d:0,l:0,gf:0,ga:0}];
+ while(tm.length<10){const n=clubName(S.cc);if(used.has(n))continue;used.add(n);const sq=squad(Math.round(TR[tier-1]+R(-9,9)),ci);tm.push({n,cr:rndCr(),rt:teamRt(sq),sq,p:0,w:0,d:0,l:0,gf:0,ga:0})}
  S.lg={st:'season',tier,sn:S.lg?S.lg.sn+1:1,rd:0,tm,sch:sched(10),ord:shuf([...Array(9).keys()]),last:[],sum:null,wc:null};save()}
+// old saves: give clubs a country-style name and a real squad
+function migrate(){const g=S.lg;if(!g)return;const u=new Set([S.team]),up=(t,ci)=>{if(t.me||t.sq)return;let n;do{n=clubName(C[ci].c)}while(u.has(n));u.add(n);t.n=n;t.sq=squad(t.rt,ci);t.rt=teamRt(t.sq)};
+ const li=C.findIndex(c=>c.c==S.cc);g.tm.forEach(t=>up(t,li));if(g.wc)g.wc.tm.forEach(t=>up(t,t.ci));save()}
 function addRes(i,j,gi,gj){const g=S.lg,a=g.tm[i],b=g.tm[j];a.gf+=gi;a.ga+=gj;b.gf+=gj;b.ga+=gi;
  if(gi>gj){a.p+=3;a.w++;b.l++}else if(gi<gj){b.p+=3;b.w++;a.l++}else{a.p++;b.p++;a.d++;b.d++}}
 const nextOpp=g=>{const q=g.sch[g.ord[g.rd]].find(x=>x[0]==0||x[1]==0);return q[0]==0?q[1]:q[0]};
@@ -389,13 +479,13 @@ function lgDone(sc){const g=S.lg,L=[];
 function endSeason(){const g=S.lg,pos=rkd(g).indexOf(0)+1,t=g.tier,prize=TB[t-1]*(11-pos);let out='stay',nt=t;
  if(t>1&&pos<=2){out='up';nt=t-1}else if(t<4&&pos>=9){out='down';nt=t+1}else if(t==1&&pos<=3)out='wc';
  S.coins+=prize;g.st='done';g.sum={pos,pts:g.tm[0].p,prize,out,nt};save()}
-function lgMatch(){const g=S.lg;if(!g||g.st!='season')return;const t=g.tm[nextOpp(g)];vs(t.rt+R(-2,2),C.findIndex(c=>c.c==S.cc),t.n,t.cr,'L')}
+function lgMatch(){const g=S.lg;if(!g||g.st!='season')return;const t=g.tm[nextOpp(g)];vs(t,C.findIndex(c=>c.c==S.cc),t.n,t.cr,'L')}
 function nextSeason(){newSeason(S.lg.sum?S.lg.sum.nt:S.lg.tier);lui()}
 function startWC(){const g=S.lg,tm=[{me:1,rt:myRt()}],used=new Set([S.team]);
- while(tm.length<16){const n=clubName();if(used.has(n))continue;used.add(n);tm.push({n,cr:rndCr(),rt:Math.round(R(66,88)),ci:r()*C.length|0})}
+ while(tm.length<16){const ci=r()*C.length|0,n=clubName(C[ci].c);if(used.has(n))continue;used.add(n);const sq=squad(Math.round(R(66,88)),ci);tm.push({n,cr:rndCr(),rt:teamRt(sq),sq,ci})}
  g.wc={tm,al:shuf(tm.map((_,i)=>i)),rd:0,log:[],last:[],end:0,champ:0,prize:0};g.st='wc';save();lui()}
 const wcOpp=w=>w.al[w.al.indexOf(0)^1];
-function wcMatch(){const w=S.lg.wc,t=w.tm[wcOpp(w)];w.tm[0].rt=myRt();vs(t.rt,t.ci,t.n,t.cr,'W')}
+function wcMatch(){const w=S.lg.wc,t=w.tm[wcOpp(w)];w.tm[0].rt=myRt();vs(t,t.ci,t.n,t.cr,'W')}
 function wcDone(sc){const g=S.lg,w=g.wc,o=wcOpp(w);let pk='',win=sc[0]>sc[1];
  if(sc[0]==sc[1]){win=r()<cl(.5+(myRt()-w.tm[o].rt)/200,.3,.7);pk=win?' (won on penalties)':' (lost on penalties)'}
  const nx=[],L=[];
@@ -409,27 +499,27 @@ function wcDone(sc){const g=S.lg,w=g.wc,o=wcOpp(w);let pk='',win=sc[0]>sc[1];
  else{w.end=1;msg=`Knocked out in the ${RN[w.rd]}.`}
  save();return`<p class=note>${msg}${pk}</p>`}
 const rl=(tm,L)=>L.map(([i,a,b,j])=>`<li${i==0||j==0?' class=me':''}>${esc(tmn(tm,i))} ${a} - ${b} ${esc(tmn(tm,j))}</li>`).join('');
-function tbl(g){return`<table class=lt><tr>${['#','Club','P','W','D','L','GD','Pts'].map(x=>`<th>${x}</th>`).join('')}</tr>`+rkd(g).map((i,k)=>{const t=g.tm[i],z=g.tier==1?(k<3?'wc':k>7?'dn':''):(k<2?'up':k>7&&g.tier<4?'dn':'');
- return`<tr class="${i?'':'me '}${z}">`+[k+1,`<span>${crest(tcr(g.tm,i),16)}${esc(tmn(g.tm,i))}</span>`,t.w+t.d+t.l,t.w,t.d,t.l,t.gf-t.ga,t.p].map(v=>`<td>${v}</td>`).join('')+'</tr>'}).join('')+'</table>'}
+function tbl(g){return`<table class=lt><tr>${['#','Club','Sq','P','W','D','L','GD','Pts'].map(x=>`<th>${x}</th>`).join('')}</tr>`+rkd(g).map((i,k)=>{const t=g.tm[i],z=g.tier==1?(k<3?'wc':k>7?'dn':''):(k<2?'up':k>7&&g.tier<4?'dn':'');
+ return`<tr class="${i?'':'me '}${z}">`+[k+1,`<span>${crest(tcr(g.tm,i),16)}${esc(tmn(g.tm,i))}</span>`,i?t.rt:myRt(),t.w+t.d+t.l,t.w,t.d,t.l,t.gf-t.ga,t.p].map(v=>`<td>${v}</td>`).join('')+'</tr>'}).join('')+'</table>'}
 function wcHtml(g){const w=g.wc;let h='<h3>World Club Championship</h3><p class="note help">16 clubs from around the world in a knockout. Win each round for prize money - the champions get the biggest prize.</p>';
  if(w.log.length)h+='<ul class=rl>'+w.log.map(l=>`<li class=me>${RN[l.rd]}: ${esc(S.team)} ${l.me} - ${l.th} ${esc(w.tm[l.o].n)}${l.pk}</li>`).join('')+'</ul>';
  if(w.end)h+=`<div class=card><b>${w.champ?'World champions!':'Eliminated in the '+RN[w.rd]}</b><p>Prize money from the tournament: <b>${w.prize} coins</b></p><button onclick="nextSeason()">Start next season</button></div>`;
- else{const o=w.tm[wcOpp(w)];h+=`<div class=card><div class=top>${crest(o.cr,44)}<div><b>${RN[w.rd]}: ${esc(o.n)}</b><br><small class=note>${esc(cn2(C[o.ci].c))} - rating ${o.rt} - your rating ${myRt()}</small></div></div><p class=note>Win: +${WP[w.rd]} coins${w.rd==3?' + 15000 trophy bonus':''}. A draw goes to penalties.</p><button onclick="wcMatch()">Play match</button></div>`}
+ else{const o=w.tm[wcOpp(w)];h+=`<div class=card><div class=top>${crest(o.cr,44)}<div><b>${RN[w.rd]}: ${esc(o.n)}</b><br><small class=note>${esc(cn2(C[o.ci].c))} - squad rating ${o.rt} - your rating ${myRt()}</small></div></div><div class=tr>${esc(five(o))}</div><p class=note>Win: +${WP[w.rd]} coins${w.rd==3?' + 15000 trophy bonus':''}. A draw goes to penalties.</p><button onclick="wcMatch()">Play match</button></div>`}
  if(w.last.length)h+=`<h3>Last round results</h3><ul class=rl>${rl(w.tm,w.last)}</ul>`;return h}
 function lui(){if(!S.lg)newSeason(4);const g=S.lg;
  let h=`<p><b>${flag(S.cc)} ${esc(cn2(S.cc))} ${TN[g.tier-1]}</b> <span class=note>- tier ${g.tier} of 4 - season ${g.sn}</span></p>`;
  if(g.st=='wc')h+=wcHtml(g);
  else{
   if(g.st=='season'){const o=g.tm[nextOpp(g)];
-   h+=`<div class=card><div class=top>${crest(o.cr,44)}<div><b>Next: ${esc(o.n)}</b><br><small class=note>rating ${o.rt} - your rating ${myRt()} - match ${g.rd+1} of 9</small></div></div><p class="note help">You meet every club once, in random order. All the other clubs play each other at the same time. Win 3 pts, draw 1, loss 0.</p><button onclick="lgMatch()">Play match</button></div>`}
+   h+=`<div class=card><div class=top>${crest(o.cr,44)}<div><b>Next: ${esc(o.n)}</b><br><small class=note>squad rating ${o.rt} - your rating ${myRt()} - match ${g.rd+1} of 9</small></div></div><div class=tr>${esc(five(o))}</div><p class="note help">You meet every club once, in random order. All the other clubs play each other at the same time. Win 3 pts, draw 1, loss 0. Each club's results follow its squad rating (Sq in the table), and you face exactly that squad.</p><button onclick="lgMatch()">Play match</button></div>`}
   else{const m=g.sum,msg=m.out=='up'?'Promoted to the '+TN[m.nt-1]+'!':m.out=='down'?'Relegated to the '+TN[m.nt-1]+'.':m.out=='wc'?'You qualified for the World Club Championship!':'You stay in this division.';
    h+=`<div class=card><b>Season over - you finished ${nth(m.pos)} with ${m.pts} pts</b><p>${msg}</p><p>Season prize money: <b>+${m.prize} coins</b></p>${m.out=='wc'?'<button onclick="startWC()">Enter the World Club Championship</button>':'<button onclick="nextSeason()">Start next season</button>'}</div>`}
-  h+='<h3>Table</h3>'+tbl(g)+`<p class=note>${g.tier>1?'<span style="color:#7CFC8A">&#9632;</span> top 2 promoted · ':''}${g.tier==1?'<span style="color:#ffd54a">&#9632;</span> top 3 qualify for the World Club Championship · ':''}${g.tier<4?'<span style="color:#ff6b6b">&#9632;</span> bottom 2 relegated · ':''}Prize money: ${TB[g.tier-1]*10} coins for 1st down to ${TB[g.tier-1]} for 10th.</p>`;
+  h+='<h3>Table</h3>'+tbl(g)+`<p class=note>Sq = squad rating · ${g.tier>1?'<span style="color:#7CFC8A">&#9632;</span> top 2 promoted · ':''}${g.tier==1?'<span style="color:#ffd54a">&#9632;</span> top 3 qualify for the World Club Championship · ':''}${g.tier<4?'<span style="color:#ff6b6b">&#9632;</span> bottom 2 relegated · ':''}Prize money: ${TB[g.tier-1]*10} coins for 1st down to ${TB[g.tier-1]} for 10th.</p>`;
   if(g.last.length)h+=`<h3>Match ${g.rd} results</h3><ul class=rl>${rl(g.tm,g.last)}</ul>`}
  $('#lg').innerHTML=h}
 
 // ---------- online (WebRTC via PeerJS, host is authoritative) ----------
-const snap=()=>{const m=M,e=m.evq;m.evq=[];return{k:'s',p:m.pl.map(p=>[p.x|0,p.y|0]),b:[m.ball.x|0,m.ball.y|0],c:m.ctrl,sc:m.sc,t:m.time|0,z:m.gl&&m.fz>0?1:0,w:m.w,st:m.pl.map(p=>p.st*100|0),e}};
+const snap=()=>{const m=M,e=m.evq;m.evq=[];return{k:'s',p:m.pl.map(p=>[p.x|0,p.y|0]),b:[m.ball.x|0,m.ball.y|0],c:m.ctrl,sc:m.sc,t:m.time|0,lm:m.lm|0,z:m.gl&&m.fz>0?1:0,w:m.w,st:m.pl.map(p=>p.st*100|0),e}};
 function onData(d){
  if(d.k=='hello'&&!M){newMatch([mkTeam(S.sq,S.fm),d.team],[S.team,String(d.nick||'Guest').slice(0,16)],true,true,[S.sq.slice(5),d.bench],[S.crest,okc(d.cr)]);
   conn.send({k:'start',names:M.names,cr:M.cr,pl:M.pl.map(p=>({...core(p),s:p.s}))})}
@@ -439,7 +529,7 @@ function onData(d){
  else if(d.k=='subreq'&&M.host&&M.subs[1]<3&&M.bench[1][d.bi]){const n=M.bench[1][d.bi];applySub(1,d.slot,d.bi);conn.send({k:'sub',t:1,slot:d.slot,bi:d.bi,n})}
  else if(d.k=='sub'&&!M.host){applySub(d.t,d.slot,d.bi,d.n);if(!$('#sub').hidden)subUI()}
  else if(d.k=='s'&&!M.host){d.p.forEach((q,i)=>{const p=M.pl[i],dx=q[0]-p.tx,dy=q[1]-p.ty,l=hy(dx,dy);if(l>1){p.fx=dx/l;p.fy=dy/l}p.tx=q[0];p.ty=q[1];p.st=d.st[i]/100});
-  M.ball.tx=d.b[0];M.ball.ty=d.b[1];M.ctrl=d.c;M.sc=d.sc;M.time=d.t;M.gl=d.z;M.w=d.w;d.e.forEach(q=>play(...q))}
+  M.ball.tx=d.b[0];M.ball.ty=d.b[1];M.ctrl=d.c;M.sc=d.sc;M.time=d.t;M.lm=d.lm;M.gl=d.z;M.w=d.w;d.e.forEach(q=>play(...q))}
  else if(d.k=='end')finish(d.sc,d.ms)}
 function wire(c){conn=c;c.on('data',onData);c.on('close',()=>{if(M&&!M.over){M.over=1;$('#res').hidden=false;$('#res').innerHTML='<div><h2>Opponent left</h2><button onclick="leave()">Back</button></div>'}else st('Connection closed.')})}
 function hostGame(){const code=Array.from({length:5},()=>'ABCDEFGHJKLMNPQRSTUVWXYZ'[r()*24|0]).join('');
@@ -515,6 +605,7 @@ function draw(){
  if(cp){x.textAlign='left';x.font='bold 14px Arial';const fi=fimg(cp.c);if(fi.complete&&fi.naturalWidth)x.drawImage(fi,14,h-36,24,18);x.fillText(`#${cp.num} ${cp.n} · ${cp.ovr}`,44,h-27);x.textAlign='center'}
  if(m.gl){x.font='900 64px Impact,Arial';x.fillStyle='#e8ff5a';x.fillText('GOAL!',w/2,h/2-20);x.font='bold 22px Arial';x.fillStyle='#fff';x.fillText(m.w||'',w/2,h/2+24)}
  else if(m.toast){x.font='bold 26px Impact,Arial';x.fillStyle='#fff';x.globalAlpha=Math.min(1,m.toast[1]*3);x.fillText(m.toast[0],w/2,62);x.globalAlpha=1}
+ if(m.lm&&!m.over){x.textAlign='center';x.font='900 30px Impact,Arial';x.fillStyle='#ff6b6b';x.globalAlpha=.65+.35*Math.sin(now*8);x.fillText('FINAL PLAY',w/2,h-64);x.globalAlpha=1;x.font='13px Arial';x.fillStyle='#fffc';x.fillText('Ends when the ball hits a wall or a player, or changes hands · goals still count',w/2,h-42)}
  if(!S.hh){x.font='12px Arial';x.fillStyle='#fff9';x.fillText('Space shoot · E pass · Shift sprint · Tab switch · B subs · M mute',w/2,h-12)}}
-applyHelp();tab(0);ui();requestAnimationFrame(loop);
+applyHelp();migrate();tab(0);ui();requestAnimationFrame(loop);if(S.setup)showSetup();
 </script></body></html>
